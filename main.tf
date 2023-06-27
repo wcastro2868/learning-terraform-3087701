@@ -44,9 +44,10 @@ module "blog_sg" {
 }
 
 resource "aws_security_group" "blog" {
-  name        = "blog"
-  description = "Allow https and https in and Allow everything out."
-
+  name = "blog"
+  tags = {
+    Terraform = "true"
+  }
   vpc_id = data.aws_vpc.default.id
 }
 
