@@ -19,7 +19,7 @@ data "aws_vpc" "defualt" {
 resource "aws_instance" "blog" {
   ami           = data.aws_ami.app_ami.id
   instance_type = var.instance_type
-  
+
   vpc_security_group_ids = [aws_security_group.blog.id]
 
   tags = {
@@ -31,7 +31,7 @@ resource "aws_security_group" "blog" {
   name        = "blog"
   description = "Allow https and https in and Allow everything out."
 
-  vpc_id = data.aws_vpc,defualt.id
+  vpc_id = data.aws_vpc.defualt.id
 }
 
 resource "aws_security_group_rule" "blog_http_in" {
