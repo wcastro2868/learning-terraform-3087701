@@ -35,15 +35,15 @@ module "autoscaling" {
   source   = "terraform-aws-modules/autoscaling/aws"
   version  = "6.10.0"
   name     = "Blog"
-  min_size = 1
-  max_size = 1
+
+  min_size            = 1
+  max_size            = 2
 
   vpc_zone_identifier = module.blog_vpc.public_subnets
-  target_group_arns  = module.blog_alb.target_groups_arns
+  target_group_arns   = module.blog_alb.target_group_arns
   security_groups     = [module.blog_sg.security_group_id]
-
-  image_id      = data.aws_ami.app_ami.id
-  instance_type = var.instance_type
+  image_id            = data.aws_ami.app_ami.id
+  instance_type       = var.instance_type
 }
 
 
@@ -61,16 +61,10 @@ module "blog_alb" {
 
   target_groups = [
     {
-      name_prefix      = "blog"
+      name_prefix      = "blog-"
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
-      targets = {
-        my_target = {
-          target_id =  aws_instance.blog.id
-          port = 80
-        }
-      }
     }
   ]
 
